@@ -1,6 +1,6 @@
 import glob
-import os
 import json
+import os
 
 from kkbox_developer_sdk.api import KKBOXAPI
 from kkbox_developer_sdk.auth_flow import KKBOXOAuth
@@ -44,9 +44,10 @@ def download_mp3_from_tracks(tracks, target_path="Downloads/"):
 
         try:
             yt = s.results[0]
+            video = yt.streams.filter(only_audio=True).first()
         except:
+            print("!!! fail to dowaload {} {}".format(song_name, singer))
             continue
-        video = yt.streams.filter(only_audio=True).first()
         out_file = video.download(output_path=target_path)
         new_path = change_file_name(out_file)
 
