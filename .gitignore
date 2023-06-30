@@ -2,3 +2,4 @@ Downloads
 .DS_Store
 __pycache__
 .vscode
+secret.json

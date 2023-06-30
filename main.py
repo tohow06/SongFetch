@@ -1,13 +1,15 @@
 import glob
 import os
+import json
 
 from kkbox_developer_sdk.api import KKBOXAPI
 from kkbox_developer_sdk.auth_flow import KKBOXOAuth
 
 from pytube import Search, YouTube
 
-CLIENT_ID = ""
-CLIENT_SECRET = ""
+# read CLIENT_ID and CLIENT_SECRET from secret.json
+CLIENT_ID = json.load(open("secret.json"))["CLIENT_ID"]
+CLIENT_SECRET = json.load(open("secret.json"))["CLIENT_SECRET"]
 auth = KKBOXOAuth(CLIENT_ID, CLIENT_SECRET)
 token = auth.fetch_access_token_by_client_credentials()
 kkboxapi = KKBOXAPI(token)
