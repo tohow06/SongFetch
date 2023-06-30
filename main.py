@@ -1,8 +1,10 @@
-from kkbox_developer_sdk.auth_flow import KKBOXOAuth
-from kkbox_developer_sdk.api import KKBOXAPI
-from pytube import Search, YouTube
-import os
 import glob
+import os
+
+from kkbox_developer_sdk.api import KKBOXAPI
+from kkbox_developer_sdk.auth_flow import KKBOXOAuth
+
+from pytube import Search, YouTube
 
 CLIENT_ID = ""
 CLIENT_SECRET = ""
@@ -13,7 +15,7 @@ kkboxapi = KKBOXAPI(token)
 
 def get_singers(file_name):
     singers = []
-    with open(file_name, "r") as f:
+    with open(file_name, "r", encoding="UTF-8") as f:
         line = f.readline()
         while line:
             singers.append(line.strip())
@@ -38,7 +40,10 @@ def download_mp3_from_tracks(tracks, target_path="Downloads/"):
         singer = track["album"]["artist"]["name"]
         s = Search("{} {}".format(song_name, singer))
 
-        yt = s.results[0]
+        try:
+            yt = s.results[0]
+        except:
+            continue
         video = yt.streams.filter(only_audio=True).first()
         out_file = video.download(output_path=target_path)
         new_path = change_file_name(out_file)
